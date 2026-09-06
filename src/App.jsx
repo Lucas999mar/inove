@@ -20,6 +20,10 @@ function App() {
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<AdminDashboard />} />
           <Route path="login" element={<AdminLogin />} />
+          <Route path="settings" element={<div><h1>Configurações (Em desenvolvimento)</h1></div>} />
+          <Route path="services" element={<div><h1>Serviços (Em desenvolvimento)</h1></div>} />
+          <Route path="portfolio" element={<div><h1>Portfólio (Em desenvolvimento)</h1></div>} />
+          <Route path="leads" element={<div><h1>Orçamentos (Em desenvolvimento)</h1></div>} />
         </Route>
       </Routes>
     </Router>

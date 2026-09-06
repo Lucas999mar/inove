@@ -35,16 +35,19 @@ export default function AdminLayout() {
     return (
         <div className="admin-panel">
             {session && (
-                <aside className="admin-sidebar">
-                    <h2>Inove Admin</h2>
-                    <nav>
-                        <a href="/admin">Dashboard</a>
-                        {/* Outros links no futuro */}
+                <aside className="admin-sidebar" style={{ minWidth: '250px', background: '#111', padding: '20px' }}>
+                    <h2 style={{ color: '#fff', marginBottom: '30px' }}>Inove Admin</h2>
+                    <nav style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                        <a href="/admin" style={{ color: '#ccc', textDecoration: 'none' }}>Dashboard</a>
+                        <a href="/admin/settings" style={{ color: '#ccc', textDecoration: 'none' }}>Configurações Globais</a>
+                        <a href="/admin/services" style={{ color: '#ccc', textDecoration: 'none' }}>Serviços</a>
+                        <a href="/admin/portfolio" style={{ color: '#ccc', textDecoration: 'none' }}>Portfólio & Cases</a>
+                        <a href="/admin/leads" style={{ color: '#ccc', textDecoration: 'none' }}>Orçamentos (Leads)</a>
                     </nav>
-                    <button onClick={() => supabase.auth.signOut()}>Sair</button>
+                    <button style={{ marginTop: 'auto', background: 'transparent', border: '1px solid #333', color: '#fff', padding: '10px', cursor: 'pointer', borderRadius: '4px' }} onClick={() => supabase.auth.signOut()}>Encerrar Sessão</button>
                 </aside>
             )}
-            <main className="admin-content">
+            <main className="admin-content" style={{ flex: 1, padding: '40px', background: '#0a0a0a', color: '#fff', minHeight: '100vh', overflowY: 'auto' }}>
                 <Outlet />
             </main>
         </div>
