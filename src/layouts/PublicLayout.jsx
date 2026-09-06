@@ -1,20 +1,30 @@
 import { Outlet } from 'react-router-dom';
+import { useState } from 'react';
+import { Menu, X } from 'lucide-react';
 
 export default function PublicLayout() {
-    // Header e Footer baseados no Supabase settings serão carregados aqui futuramente
+    const [menuOpen, setMenuOpen] = useState(false);
+
+    const toggleMenu = () => setMenuOpen(!menuOpen);
+
     return (
         <div className="public-site">
             <header className="site-header">
                 <div className="container" style={{ display: 'flex', alignItems: 'center', height: '100px' }}>
-                    <div className="logo" style={{ flexShrink: 0 }}>
+                    <div className="logo" style={{ flexShrink: 0, zIndex: 110 }}>
                         <img src="/assets/logo-inove-transparent.png" alt="Inove Produtora" style={{ height: '70px', objectFit: 'contain', display: 'block' }} />
                     </div>
-                    <nav style={{ marginLeft: 'auto' }}>
-                        <a href="/">Home</a>
-                        <a href="#sobre">Quem Somos</a>
-                        <a href="#servicos">Serviços</a>
-                        <a href="#portfolio">Portfólio</a>
-                        <a href="#contato">Contato</a>
+
+                    <button className="mobile-menu-btn" onClick={toggleMenu}>
+                        {menuOpen ? <X size={32} color="#fff" /> : <Menu size={32} color="#fff" />}
+                    </button>
+
+                    <nav className={`desktop-nav ${menuOpen ? 'nav-open' : ''}`}>
+                        <a href="/" onClick={() => setMenuOpen(false)}>Home</a>
+                        <a href="#sobre" onClick={() => setMenuOpen(false)}>Quem Somos</a>
+                        <a href="#servicos" onClick={() => setMenuOpen(false)}>Serviços</a>
+                        <a href="#portfolio" onClick={() => setMenuOpen(false)}>Portfólio</a>
+                        <a href="#contato" onClick={() => setMenuOpen(false)}>Contato</a>
                     </nav>
                 </div>
             </header>
