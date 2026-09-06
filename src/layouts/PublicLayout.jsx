@@ -5,11 +5,11 @@ export default function PublicLayout() {
     return (
         <div className="public-site">
             <header className="site-header">
-                <div className="container">
-                    <div className="logo">
-                        <img src="/assets/logo-inove.png" alt="Inove Produtora" style={{ height: '40px', display: 'block' }} />
+                <div className="container" style={{ display: 'flex', alignItems: 'center', height: '100px' }}>
+                    <div className="logo" style={{ flexShrink: 0 }}>
+                        <img src="/assets/logo-inove-transparent.png" alt="Inove Produtora" style={{ height: '70px', objectFit: 'contain', display: 'block' }} />
                     </div>
-                    <nav>
+                    <nav style={{ marginLeft: 'auto' }}>
                         <a href="/">Home</a>
                         <a href="#sobre">Quem Somos</a>
                         <a href="#servicos">Serviços</a>

@@ -35,9 +35,11 @@ export default function AdminLayout() {
     return (
         <div className="admin-panel">
             {session && (
-                <aside className="admin-sidebar" style={{ minWidth: '250px', background: '#111', padding: '20px' }}>
-                    <h2 style={{ color: '#fff', marginBottom: '30px' }}>Inove Admin</h2>
-                    <nav style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <aside className="admin-sidebar" style={{ minWidth: '250px', background: '#111', padding: '30px 20px' }}>
+                    <div style={{ marginBottom: '40px', paddingLeft: '14px' }}>
+                        <img src="/assets/logo-inove-transparent.png" alt="Inove Admin" style={{ height: '40px', objectFit: 'contain' }} />
+                    </div>
+                    <nav style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                         <a href="/admin" style={{ color: '#ccc', textDecoration: 'none' }}>Dashboard</a>
                         <a href="/admin/settings" style={{ color: '#ccc', textDecoration: 'none' }}>Configurações Globais</a>
                         <a href="/admin/services" style={{ color: '#ccc', textDecoration: 'none' }}>Serviços</a>
