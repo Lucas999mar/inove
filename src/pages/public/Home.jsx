@@ -13,6 +13,10 @@ export default function Home() {
     const [loading, setLoading] = useState(true);
     const [activeVideo, setActiveVideo] = useState(null);
 
+    // Form states
+    const [leadData, setLeadData] = useState({ name: '', phone: '', email: '', message: '' });
+    const [leadStatus, setLeadStatus] = useState('idle');
+
     useEffect(() => {
         async function fetchContent() {
             try {
@@ -50,6 +54,21 @@ export default function Home() {
         }
         fetchContent();
     }, []);
+
+    const handleSubmitLead = async (e) => {
+        e.preventDefault();
+        setLeadStatus('loading');
+        try {
+            const { error } = await supabase.from('leads').insert([leadData]);
+            if (error) throw error;
+            setLeadStatus('success');
+            setLeadData({ name: '', phone: '', email: '', message: '' });
+            setTimeout(() => setLeadStatus('idle'), 5000);
+        } catch (error) {
+            console.error('Erro ao enviar lead', error);
+            setLeadStatus('error');
+        }
+    };
 
     if (loading) {
         return (
@@ -203,15 +222,45 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* CALL TO ACTION */}
-            <section id="contato" className="section-dark cta-section">
+            {/* CALL TO ACTION / CONTATO */}
+            <section id="contato" className="section cta-section" style={{ position: 'relative', overflow: 'hidden' }}>
                 <div className="container">
-                    <div className="cta-box">
-                        <h2>Pronto para tirar seu projeto do papel?</h2>
-                        <p>Entre em contato e agende uma conversa com nossa equipe de direção criativa.</p>
-                        <a href={whatsappLink} target="_blank" rel="noreferrer" className="btn btn-primary btn-lg">
-                            <MessageCircle style={{ marginRight: '8px' }} /> Falar no WhatsApp
-                        </a>
+                    <div className="cta-grid">
+                        <div className="cta-info">
+                            <h2>Pronto para tirar seu projeto do papel?</h2>
+                            <p>Descreva brevemente o que você precisa e nossa equipe de direção criativa entrará em contato para um orçamento especial.</p>
+
+                            <div className="contact-methods" style={{ marginTop: '40px' }}>
+                                <a href={whatsappLink} target="_blank" rel="noreferrer" className="btn btn-primary btn-lg" style={{ width: '100%', marginBottom: '20px' }}>
+                                    <MessageCircle style={{ marginRight: '8px' }} /> Falar Agora no WhatsApp
+                                </a>
+                                <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
+                                    Ou através do formulário ao lado.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="cta-form-wrapper">
+                            <form className="lead-form" onSubmit={handleSubmitLead}>
+                                <div className="form-group">
+                                    <input type="text" placeholder="Seu Nome / Empresa" value={leadData.name} onChange={e => setLeadData({ ...leadData, name: e.target.value })} required />
+                                </div>
+                                <div className="form-group split-group">
+                                    <input type="tel" placeholder="WhatsApp (DDD)" value={leadData.phone} onChange={e => setLeadData({ ...leadData, phone: e.target.value })} required />
+                                    <input type="email" placeholder="E-mail principal" value={leadData.email} onChange={e => setLeadData({ ...leadData, email: e.target.value })} />
+                                </div>
+                                <div className="form-group">
+                                    <textarea rows="4" placeholder="Detalhes do projeto, referências, necessidade..." value={leadData.message} onChange={e => setLeadData({ ...leadData, message: e.target.value })} required></textarea>
+                                </div>
+
+                                <button type="submit" className="btn btn-primary" style={{ width: '100%', borderRadius: '8px' }} disabled={leadStatus === 'loading'}>
+                                    {leadStatus === 'loading' ? 'Enviando...' : 'Solicitar Orçamento Oficial'}
+                                </button>
+
+                                {leadStatus === 'success' && <div className="form-success">Obrigado! Recebemos sua solicitação.</div>}
+                                {leadStatus === 'error' && <div className="form-error">Ocorreu um erro. Tente via WhatsApp diretamente.</div>}
+                            </form>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -230,8 +279,8 @@ export default function Home() {
                             width="100%"
                             height="100%"
                             src={`https://www.youtube.com/embed/${activeVideo.includes('v=') ? activeVideo.split('v=')[1].split('&')[0] :
-                                    activeVideo.includes('youtu.be/') ? activeVideo.split('youtu.be/')[1].split('?')[0] :
-                                        activeVideo
+                                activeVideo.includes('youtu.be/') ? activeVideo.split('youtu.be/')[1].split('?')[0] :
+                                    activeVideo
                                 }?autoplay=1`}
                             title="YouTube video player"
                             frameBorder="0"

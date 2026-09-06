@@ -446,15 +446,21 @@
     transform: scale(1.1);
 }
 
-/* CTA */
-.cta-box {
-    text-align: center;
-    max-width: 900px;
-    margin: 0 auto;
+/* CTA / CONTATO */
+.cta-section {
+    background: radial-gradient(circle at right, rgba(133, 194, 38, 0.05) 0%, transparent 50%);
+    border-top: 1px solid rgba(255, 255, 255, 0.02);
 }
 
-.cta-box h2 {
-    font-size: 4rem;
+.cta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+}
+
+.cta-info h2 {
+    font-size: 3.5rem;
     margin-bottom: 24px;
     letter-spacing: -0.03em;
     background: linear-gradient(135deg, #fff 0%, #a1a1aa 100%);
@@ -463,11 +469,69 @@
     color: transparent;
 }
 
-.cta-box p {
-    font-size: 1.3rem;
+.cta-info p {
+    font-size: 1.25rem;
     color: var(--text-secondary);
-    margin-bottom: 50px;
-    font-weight: 300;
+    line-height: 1.8;
+}
+
+.cta-form-wrapper {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 50px;
+    border-radius: var(--border-radius);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+}
+
+.lead-form .form-group {
+    margin-bottom: 20px;
+}
+
+.lead-form .split-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.lead-form input,
+.lead-form textarea {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 16px 20px;
+    color: #fff;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: var(--font-sans);
+    transition: border-color 0.3s;
+}
+
+.lead-form input:focus,
+.lead-form textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.form-success {
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(133, 194, 38, 0.1);
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 8px;
+    text-align: center;
+}
+
+.form-error {
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border: 1px solid #ef4444;
+    border-radius: 8px;
+    text-align: center;
 }
 
 /* MODAL */
@@ -539,11 +603,24 @@
         font-size: 2.5rem;
     }
 
-    .cta-box h2 {
+    .portfolio-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cta-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .cta-info h2 {
         font-size: 2.5rem;
     }
 
-    .portfolio-grid {
+    .lead-form .split-group {
         grid-template-columns: 1fr;
+    }
+
+    .cta-form-wrapper {
+        padding: 30px;
     }
 }
