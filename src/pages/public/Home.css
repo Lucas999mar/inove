@@ -106,22 +106,27 @@
 @media (max-width: 768px) {
     .hero-section {
         min-height: 85vh;
-        /* Alto o suficiente para o texto caber */
+        align-items: flex-end;
+        padding-bottom: 20px;
     }
 
     .hero-video-bg {
         object-fit: contain;
-        /* NUNCA corta o vídeo, mostra por inteiro. O resto vira barra preta natural. */
-        opacity: 0.6;
+        opacity: 0.7;
+    }
+
+    .hero-content {
+        padding-top: 0;
+        margin-bottom: 30px;
     }
 
     .hero-section h1 {
         display: none !important;
-        /* Esconde o título gigante no celular */
     }
 
     .hero-subtitle {
-        font-size: 1rem !important;
+        font-size: 0.95rem !important;
+        margin-bottom: 25px;
     }
 }
 
