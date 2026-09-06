@@ -6,7 +6,9 @@ export default function PublicLayout() {
         <div className="public-site">
             <header className="site-header">
                 <div className="container">
-                    <div className="logo">INOVE PRODUTORA</div>
+                    <div className="logo">
+                        <img src="/assets/logo-inove.png" alt="Inove Produtora" style={{ height: '40px', display: 'block' }} />
+                    </div>
                     <nav>
                         <a href="/">Home</a>
                         <a href="#sobre">Quem Somos</a>

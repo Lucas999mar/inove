@@ -4,6 +4,10 @@ import AdminLayout from './layouts/AdminLayout';
 import Home from './pages/public/Home';
 import AdminLogin from './pages/admin/AdminLogin';
 import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminSettings from './pages/admin/AdminSettings';
+import AdminServices from './pages/admin/AdminServices';
+import AdminPortfolio from './pages/admin/AdminPortfolio';
+import AdminLeads from './pages/admin/AdminLeads';
 import './App.css';
 
 function App() {
@@ -20,10 +24,10 @@ function App() {
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<AdminDashboard />} />
           <Route path="login" element={<AdminLogin />} />
-          <Route path="settings" element={<div><h1>Configurações (Em desenvolvimento)</h1></div>} />
-          <Route path="services" element={<div><h1>Serviços (Em desenvolvimento)</h1></div>} />
-          <Route path="portfolio" element={<div><h1>Portfólio (Em desenvolvimento)</h1></div>} />
-          <Route path="leads" element={<div><h1>Orçamentos (Em desenvolvimento)</h1></div>} />
+          <Route path="settings" element={<AdminSettings />} />
+          <Route path="services" element={<AdminServices />} />
+          <Route path="portfolio" element={<AdminPortfolio />} />
+          <Route path="leads" element={<AdminLeads />} />
         </Route>
       </Routes>
     </Router>

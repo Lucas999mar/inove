@@ -57,8 +57,10 @@ export default function Home() {
         <div className="home-page">
             {/* HERO SECTION CINEMÁTICA */}
             <section className="hero-section">
+                <video className="hero-video-bg" autoPlay loop muted playsInline>
+                    <source src="/assets/video-riverson.mp4" type="video/mp4" />
+                </video>
                 <div className="hero-overlay"></div>
-                {/* Opcional: Aqui poderíamos carregar um <video autoPlay loop muted> se configurado no painel */}
                 <div className="container hero-content">
                     <span className="badge">Há 20 anos no mercado</span>
                     <h1>{settings?.slogan || '20 anos transformando ideias em histórias que merecem ser vistas.'}</h1>

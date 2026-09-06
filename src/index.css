@@ -1,15 +1,15 @@
 :root {
   --font-sans: 'Inter', system-ui, sans-serif;
 
-  /* Paleta Escura Cinemática */
-  --bg-color: #0a0a0a;
-  --surface: #141414;
+  /* Paleta Escura Cinemática INOVE */
+  --bg-color: #050505;
+  --surface: #111111;
   --surface-hover: #1f1f1f;
   --text-primary: #ffffff;
   --text-secondary: #a1a1aa;
-  --accent: #3b82f6;
-  /* Azul primário provisório, editável no banco depois */
-  --accent-hover: #2563eb;
+  --accent: #85c226;
+  /* Verde INOVE */
+  --accent-hover: #72a81f;
   --whatsapp: #25D366;
 
   --border-radius: 8px;
@@ -97,6 +97,7 @@ nav a:hover {
   letter-spacing: -0.03em;
   background: linear-gradient(to right, #fff, #a1a1aa);
   -webkit-background-clip: text;
+  background-clip: text;
   color: transparent;
 }
 
