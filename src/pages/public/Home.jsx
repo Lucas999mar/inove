@@ -229,7 +229,10 @@ export default function Home() {
                         <iframe
                             width="100%"
                             height="100%"
-                            src={activeVideo.includes('watch?v=') ? activeVideo.replace('watch?v=', 'embed/') : activeVideo}
+                            src={`https://www.youtube.com/embed/${activeVideo.includes('v=') ? activeVideo.split('v=')[1].split('&')[0] :
+                                    activeVideo.includes('youtu.be/') ? activeVideo.split('youtu.be/')[1].split('?')[0] :
+                                        activeVideo
+                                }?autoplay=1`}
                             title="YouTube video player"
                             frameBorder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
