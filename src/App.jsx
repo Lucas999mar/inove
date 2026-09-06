@@ -8,6 +8,8 @@ import AdminSettings from './pages/admin/AdminSettings';
 import AdminServices from './pages/admin/AdminServices';
 import AdminPortfolio from './pages/admin/AdminPortfolio';
 import AdminLeads from './pages/admin/AdminLeads';
+import AdminAbout from './pages/admin/AdminAbout';
+import AdminClients from './pages/admin/AdminClients';
 import './App.css';
 
 function App() {
@@ -25,8 +27,10 @@ function App() {
           <Route index element={<AdminDashboard />} />
           <Route path="login" element={<AdminLogin />} />
           <Route path="settings" element={<AdminSettings />} />
+          <Route path="about" element={<AdminAbout />} />
           <Route path="services" element={<AdminServices />} />
           <Route path="portfolio" element={<AdminPortfolio />} />
+          <Route path="clients" element={<AdminClients />} />
           <Route path="leads" element={<AdminLeads />} />
         </Route>
       </Routes>

@@ -9,7 +9,9 @@ export default function Home() {
     const [projects, setProjects] = useState([]);
     const [clients, setClients] = useState([]);
     const [testimonials, setTestimonials] = useState([]);
+    const [pages, setPages] = useState({});
     const [loading, setLoading] = useState(true);
+    const [activeVideo, setActiveVideo] = useState(null);
 
     useEffect(() => {
         async function fetchContent() {
@@ -20,13 +22,15 @@ export default function Home() {
                     { data: servs },
                     { data: projs },
                     { data: clis },
-                    { data: tests }
+                    { data: tests },
+                    { data: pgs }
                 ] = await Promise.all([
                     supabase.from('site_settings').select('*').single(),
                     supabase.from('services').select('*').order('order', { ascending: true }),
                     supabase.from('projects').select('*').eq('is_featured', true).order('order', { ascending: true }).limit(6),
                     supabase.from('clients').select('*').order('order', { ascending: true }),
-                    supabase.from('testimonials').select('*').eq('is_featured', true).order('order', { ascending: true })
+                    supabase.from('testimonials').select('*').eq('is_featured', true).order('order', { ascending: true }),
+                    supabase.from('pages').select('*')
                 ]);
 
                 setSettings(setts);
@@ -34,6 +38,10 @@ export default function Home() {
                 setProjects(projs || []);
                 setClients(clis || []);
                 setTestimonials(tests || []);
+
+                const pagesMap = {};
+                if (pgs) pgs.forEach(p => pagesMap[p.slug] = p);
+                setPages(pagesMap);
             } catch (error) {
                 console.error("Erro ao carregar dados:", error);
             } finally {
@@ -79,9 +87,8 @@ export default function Home() {
                 <div className="container">
                     <div className="about-grid">
                         <div className="about-text">
-                            <h2>História e Tradição</h2>
-                            <p>A Inove Produtora construiu, ao longo de 20 anos, uma história dedicada a transformar ideias em imagens, sons e experiências.</p>
-                            <p>Com criatividade, planejamento e conhecimento técnico, desenvolvemos produções audiovisuais para empresas, artistas, instituições, eventos e projetos especiais em Macaé e região.</p>
+                            <h2>{pages['sobre']?.title || 'História e Tradição'}</h2>
+                            <p style={{ whiteSpace: 'pre-line' }}>{pages['sobre']?.meta_description || 'A Inove Produtora construiu, ao longo de 20 anos, uma história dedicada a transformar ideias em imagens, sons e experiências.\n\nCom criatividade, planejamento e conhecimento técnico, desenvolvemos produções audiovisuais para empresas, artistas, instituições, eventos e projetos especiais em Macaé e região.'}</p>
 
                             <div className="stats-row">
                                 <div className="stat">
@@ -156,7 +163,7 @@ export default function Home() {
                     {projects.length > 0 ? (
                         <div className="portfolio-grid">
                             {projects.map(proj => (
-                                <div key={proj.id} className="portfolio-card video-card">
+                                <div key={proj.id} className="portfolio-card video-card" onClick={() => setActiveVideo(proj.youtube_url)}>
                                     <div className="video-thumbnail" style={{ backgroundImage: `url(${proj.cover_image || 'https://images.unsplash.com/photo-1601506521937-0121a7fc2a6b?q=80&w=2071&auto=format&fit=crop'})` }}>
                                         <div className="play-button"><Play size={32} fill="white" /></div>
                                     </div>
@@ -213,6 +220,24 @@ export default function Home() {
             <a href={whatsappLink} target="_blank" rel="noreferrer" className="whatsapp-float" aria-label="Falar pelo WhatsApp">
                 <MessageCircle size={32} color="white" />
             </a>
+
+            {/* Modal de Vídeo */}
+            {activeVideo && (
+                <div className="video-modal-overlay" onClick={() => setActiveVideo(null)}>
+                    <div className="video-modal-content">
+                        <button className="close-modal" onClick={() => setActiveVideo(null)}>X</button>
+                        <iframe
+                            width="100%"
+                            height="100%"
+                            src={activeVideo.includes('watch?v=') ? activeVideo.replace('watch?v=', 'embed/') : activeVideo}
+                            title="YouTube video player"
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen>
+                        </iframe>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

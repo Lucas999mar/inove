@@ -42,8 +42,10 @@ export default function AdminLayout() {
                     <nav style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                         <a href="/admin" style={{ color: '#ccc', textDecoration: 'none' }}>Dashboard</a>
                         <a href="/admin/settings" style={{ color: '#ccc', textDecoration: 'none' }}>Configurações Globais</a>
-                        <a href="/admin/services" style={{ color: '#ccc', textDecoration: 'none' }}>Serviços</a>
-                        <a href="/admin/portfolio" style={{ color: '#ccc', textDecoration: 'none' }}>Portfólio & Cases</a>
+                        <a href="/admin/about" style={{ color: '#ccc', textDecoration: 'none' }}>Quem Somos</a>
+                        <a href="/admin/services" style={{ color: '#ccc', textDecoration: 'none' }}>Serviços Oferecidos</a>
+                        <a href="/admin/portfolio" style={{ color: '#ccc', textDecoration: 'none' }}>Portfólio (Vídeos)</a>
+                        <a href="/admin/clients" style={{ color: '#ccc', textDecoration: 'none' }}>Clientes & Marcas</a>
                         <a href="/admin/leads" style={{ color: '#ccc', textDecoration: 'none' }}>Orçamentos (Leads)</a>
                     </nav>
                     <button style={{ marginTop: 'auto', background: 'transparent', border: '1px solid #333', color: '#fff', padding: '10px', cursor: 'pointer', borderRadius: '4px' }} onClick={() => supabase.auth.signOut()}>Encerrar Sessão</button>
