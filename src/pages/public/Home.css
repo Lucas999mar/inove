@@ -88,18 +88,16 @@
 
 .hero-video-bg {
     display: block;
-    width: 100%;
+    width: 100vw;
     height: auto;
-    /* Deixa o vídeo escalar de forma fluida sem espremer/cortar */
-    max-height: 85vh;
-    /* Se esticar no PC gigante, trava altura pra não incomodar */
-    object-fit: contain;
-    /* Nunca corta as bordas */
+    /* Crescimento livre nativo 16:9, pegará de borda a borda */
+    object-fit: cover;
+    /* Elimina qualquer fresta remanescente */
     z-index: 0;
     opacity: 1;
     /* Qualidade pura do vídeo, zero escurecimento */
     background-color: #000;
-    margin: 0 auto;
+    margin: 0;
 }
 
 /* Regras de Exibição Desktop vs Mobile */
