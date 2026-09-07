@@ -19,8 +19,8 @@ export default function PublicLayout() {
                         {menuOpen ? <X size={32} color="#fff" /> : <Menu size={32} color="#fff" />}
                     </button>
 
-                    <nav className={`desktop-nav ${menuOpen ? 'nav-open' : ''}`}>
-                        <a href="/" onClick={() => setMenuOpen(false)}>Home</a>
+                    <nav className={`desktop-nav ${menuOpen ? 'nav-open' : ''}`} translate="no">
+                        <a href="/" onClick={() => setMenuOpen(false)}>Início</a>
                         <a href="#sobre" onClick={() => setMenuOpen(false)}>Quem Somos</a>
                         <a href="#servicos" onClick={() => setMenuOpen(false)}>Serviços</a>
                         <a href="#portfolio" onClick={() => setMenuOpen(false)}>Portfólio</a>

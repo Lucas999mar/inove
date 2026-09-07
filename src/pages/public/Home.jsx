@@ -340,8 +340,15 @@ export default function Home() {
             {/* Modal de Vídeo */}
             {activeVideo && (
                 <div className="video-modal-overlay" onClick={() => setActiveVideo(null)}>
-                    <div className="video-modal-content">
-                        <button className="close-modal" onClick={() => setActiveVideo(null)}>X</button>
+                    {/* Botão Fechar — sempre visível */}
+                    <button
+                        className="close-modal"
+                        onClick={(e) => { e.stopPropagation(); setActiveVideo(null); }}
+                        aria-label="Fechar vídeo"
+                    >
+                        ✕
+                    </button>
+                    <div className="video-modal-content" onClick={(e) => e.stopPropagation()}>
                         <iframe
                             width="100%"
                             height="100%"

@@ -558,20 +558,32 @@
 }
 
 .close-modal {
-    position: absolute;
-    top: -50px;
-    right: 0;
-    background: none;
-    border: none;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 48px;
+    height: 48px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     color: #fff;
-    font-size: 32px;
-    font-weight: 300;
+    font-size: 22px;
+    font-weight: 400;
     cursor: pointer;
-    transition: color 0.2s;
+    transition: all 0.3s ease;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100000;
+    line-height: 1;
 }
 
 .close-modal:hover {
-    color: var(--accent);
+    background: var(--accent);
+    color: #000;
+    border-color: var(--accent);
+    transform: scale(1.1);
 }
 
 @media (max-width: 768px) {
