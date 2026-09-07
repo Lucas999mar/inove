@@ -87,40 +87,49 @@ export default function Home() {
             // Force play and pause immediately so iOS/Safari decodes the first frame
             video.play().then(() => video.pause()).catch(() => { });
 
-            // Prepare a timeline that locks the hero section for 350% of the viewport height
-            let tl = gsap.timeline({
+            // 1. TIMELINE DO SCROLL DO VÍDEO
+            let tlVideo = gsap.timeline({
                 scrollTrigger: {
                     trigger: containerRef.current,
                     start: "top top",
-                    end: "+=350%", // Scroll distance
-                    scrub: 1.5, // 1.5 seconds smooth catching up
+                    end: "+=500%", // Aumentado para o usuário rolar mais e o vídeo ficar mais cadenciado
+                    scrub: 2, // Mais suave
                     pin: true,
                 }
             });
 
-            // Make sure video metadata is loaded before reading duration
-            video.onloadedmetadata = () => {
-                tl.to(video, {
+            const setupVideoFrames = () => {
+                tlVideo.to(video, {
                     currentTime: video.duration || 10,
                     ease: "none",
                 }, 0);
             };
 
-            // Execute fallback setup if already loaded (some browsers fire this quickly)
             if (video.readyState >= 1) {
-                tl.to(video, {
-                    currentTime: video.duration || 10,
-                    ease: "none",
-                }, 0);
+                setupVideoFrames();
+            } else {
+                video.onloadedmetadata = setupVideoFrames;
             }
 
-            // Animate texts vanishing gracefully as you scroll
-            tl.to(textContentRef.current, {
-                opacity: 0,
-                y: -150,
-                ease: "power2.in",
-            }, 0);
-        }, containerRef);
+            // Ocultar indicador de scroll
+            tlVideo.to('.scroll-indicator', { opacity: 0, duration: 0.5 }, 0);
+
+            // 2. TIMELINE DA APRESENTAÇÃO DE TEXTO
+            gsap.fromTo(textContentRef.current,
+                { opacity: 0, y: 50 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 1.5,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: textContentRef.current,
+                        start: "top 85%", // Dispara quando a seção atinge 85% do viewport
+                        toggleActions: "play none none reverse"
+                    }
+                }
+            );
+        });
 
         return () => ctx.revert();
     }, [loading]);
@@ -152,33 +161,37 @@ export default function Home() {
 
     return (
         <div className="home-page">
-            {/* HERO SECTION CINEMÁTICA SCROLL 3D */}
+            {/* HERO SECTION CINEMÁTICA SCROLL 3D (VÍDEO PURO) */}
             <div ref={containerRef} className="hero-scroll-container">
                 <section className="hero-section">
                     <video ref={videoRef} className="hero-video-bg" muted playsInline preload="auto">
                         <source src="/assets/video-riverson.mp4" type="video/mp4" />
                     </video>
 
-                    <div className="hero-overlay"></div>
-
-                    <div className="container hero-content" ref={textContentRef}>
-                        <span className="badge">Há 20 anos no mercado</span>
-                        <h1>{settings?.slogan || '20 anos transformando ideias em histórias que merecem ser vistas.'}</h1>
-                        <p className="hero-subtitle">
-                            {settings?.description || 'Produção audiovisual completa para empresas, artistas, eventos e projetos que desejam comunicar, emocionar e permanecer na memória.'}
-                        </p>
-                        <div className="hero-actions">
-                            <a href="#portfolio" className="btn btn-primary btn-lg">Conheça nosso portfólio <ChevronRight size={20} /></a>
-                            <a href={whatsappLink} target="_blank" rel="noreferrer" className="btn btn-outline btn-lg">Solicite um orçamento</a>
-                        </div>
-                    </div>
+                    {/* Degradê apenas no pé para mesclar com o texto abaixo */}
+                    <div className="hero-overlay-fade"></div>
 
                     <div className="scroll-indicator">
                         <div className="mouse-icon"></div>
-                        <span>Role e Assista</span>
+                        <span>Role e Viaje no Tempo</span>
                     </div>
                 </section>
             </div>
+
+            {/* HERO TEXT APRESENTATION (Aparece suavemente após o vídeo) */}
+            <section className="hero-presentation-section" ref={textContentRef}>
+                <div className="container hero-content-centered">
+                    <span className="badge">Há 20 anos no mercado</span>
+                    <h1>{settings?.slogan || '20 anos transformando ideias em histórias que merecem ser vistas.'}</h1>
+                    <p className="hero-subtitle">
+                        {settings?.description || 'Produção audiovisual completa para empresas, artistas, eventos e projetos que desejam comunicar, emocionar e permanecer na memória.'}
+                    </p>
+                    <div className="hero-actions">
+                        <a href="#portfolio" className="btn btn-primary btn-lg">Conheça nosso portfólio <ChevronRight size={20} /></a>
+                        <a href={whatsappLink} target="_blank" rel="noreferrer" className="btn btn-outline btn-lg">Solicite um orçamento</a>
+                    </div>
+                </div>
+            </section>
 
             {/* SEÇÃO SOBRE A PRODUTORA */}
             <section id="sobre" className="section-dark about-section">
