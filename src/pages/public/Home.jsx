@@ -255,7 +255,13 @@ export default function Home() {
                         <div className="services-grid">
                             {services.map(service => (
                                 <div key={service.id} className="service-card">
-                                    <div className="service-icon">{service.icon || '🎬'}</div>
+                                    <div className="service-icon">
+                                        {service.image_url ? (
+                                            <img src={service.image_url} alt={service.title} style={{ width: '48px', height: '48px', objectFit: 'contain' }} />
+                                        ) : (
+                                            service.icon || '🎬'
+                                        )}
+                                    </div>
                                     <h3>{service.title}</h3>
                                     <p>{service.description}</p>
                                 </div>

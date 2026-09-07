@@ -58,8 +58,36 @@ export default function AdminServices() {
                 <form onSubmit={handleSave} className="admin-form">
 
                     <div className="form-group">
-                        <label>Ícone (Emoji ou Texto Curto)</label>
-                        <input type="text" value={currentItem.icon || ''} onChange={e => setCurrentItem({ ...currentItem, icon: e.target.value })} maxLength={5} style={{ width: '80px', textAlign: 'center', fontSize: '1.5rem' }} required />
+                        <label>Ícone Personalizado (Upload)</label>
+                        <div style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
+                            {currentItem.image_url ? (
+                                <div style={{ position: 'relative', width: '60px', height: '60px' }}>
+                                    <img src={currentItem.image_url} alt="Ícone" style={{ width: '100%', height: '100%', objectFit: 'contain', background: 'rgba(255,255,255,0.05)', borderRadius: '8px' }} />
+                                    <button type="button" onClick={() => setCurrentItem({ ...currentItem, image_url: null })} style={{ position: 'absolute', top: '-5px', right: '-5px', background: 'red', border: 'none', color: '#fff', borderRadius: '50%', cursor: 'pointer', width: '20px', height: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>&times;</button>
+                                </div>
+                            ) : (
+                                <div style={{ width: '60px', height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(255,255,255,0.05)', borderRadius: '8px', fontSize: '1.5rem' }}>
+                                    {currentItem.icon}
+                                </div>
+                            )}
+                            <div style={{ flex: 1 }}>
+                                <input type="file" accept="image/*" onChange={async (e) => {
+                                    const file = e.target.files[0];
+                                    if (!file) return;
+                                    setLoading(true);
+                                    const fileExt = file.name.split('.').pop();
+                                    const fileName = `services/${Math.random()}.${fileExt}`;
+                                    const { error } = await supabase.storage.from('media').upload(fileName, file);
+                                    if (!error) {
+                                        const { data: { publicUrl } } = supabase.storage.from('media').getPublicUrl(fileName);
+                                        setCurrentItem({ ...currentItem, image_url: publicUrl, icon: '' });
+                                    }
+                                    setLoading(false);
+                                }} style={{ width: '100%', padding: '10px', background: '#333', color: '#fff', border: '1px solid #444', borderRadius: '4px', cursor: 'pointer' }} />
+                                <p style={{ fontSize: '0.8rem', color: '#888', marginTop: '6px' }}>Ou você pode usar um Emoji simples texto abaixo:</p>
+                                <input type="text" placeholder="Ex: 📱" value={currentItem.icon || ''} onChange={e => !currentItem.image_url && setCurrentItem({ ...currentItem, icon: e.target.value })} maxLength={5} style={{ width: '80px', textAlign: 'center', fontSize: '1.2rem', padding: '5px', marginTop: '5px' }} disabled={!!currentItem.image_url} />
+                            </div>
+                        </div>
                     </div>
 
                     <div className="form-group">
@@ -112,7 +140,13 @@ export default function AdminServices() {
                                 <tr key={item.id} style={{ borderBottom: '1px solid #222' }}>
                                     <td style={{ padding: '16px 8px', display: 'flex', alignItems: 'center', gap: '16px' }}>
                                         <GripVertical size={16} color="#666" style={{ cursor: 'grab' }} />
-                                        <span style={{ fontSize: '1.5rem' }}>{item.icon}</span>
+                                        <span style={{ fontSize: '1.5rem', width: '40px', textAlign: 'center', display: 'inline-block' }}>
+                                            {item.image_url ? (
+                                                <img src={item.image_url} alt="icon" style={{ width: '32px', height: '32px', objectFit: 'contain', background: 'rgba(255,255,255,0.05)', padding: '4px', borderRadius: '8px' }} />
+                                            ) : (
+                                                item.icon
+                                            )}
+                                        </span>
                                         <div style={{ display: 'flex', flexDirection: 'column' }}>
                                             <strong>{item.title}</strong>
                                             <span style={{ fontSize: '0.85rem', color: '#999' }}>{item.description?.substring(0, 50)}...</span>
