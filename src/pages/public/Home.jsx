@@ -78,43 +78,11 @@ export default function Home() {
         return () => clearInterval(timer);
     }, [aboutMedia]);
 
-    // Animação de Scroll no Vídeo (Apple Style)
+    // Animação da Apresentação de Texto
     useEffect(() => {
-        if (loading || !videoRef.current || !containerRef.current) return;
+        if (loading || !textContentRef.current) return;
 
         let ctx = gsap.context(() => {
-            const video = videoRef.current;
-            // Force play and pause immediately so iOS/Safari decodes the first frame
-            video.play().then(() => video.pause()).catch(() => { });
-
-            // 1. TIMELINE DO SCROLL DO VÍDEO
-            let tlVideo = gsap.timeline({
-                scrollTrigger: {
-                    trigger: containerRef.current,
-                    start: "top top",
-                    end: "+=500%", // Aumentado para o usuário rolar mais e o vídeo ficar mais cadenciado
-                    scrub: 2, // Mais suave
-                    pin: true,
-                }
-            });
-
-            const setupVideoFrames = () => {
-                tlVideo.to(video, {
-                    currentTime: video.duration || 10,
-                    ease: "none",
-                }, 0);
-            };
-
-            if (video.readyState >= 1) {
-                setupVideoFrames();
-            } else {
-                video.onloadedmetadata = setupVideoFrames;
-            }
-
-            // Ocultar indicador de scroll
-            tlVideo.to('.scroll-indicator', { opacity: 0, duration: 0.5 }, 0);
-
-            // 2. TIMELINE DA APRESENTAÇÃO DE TEXTO
             gsap.fromTo(textContentRef.current,
                 { opacity: 0, y: 50 },
                 {
@@ -124,7 +92,7 @@ export default function Home() {
                     ease: "power3.out",
                     scrollTrigger: {
                         trigger: textContentRef.current,
-                        start: "top 85%", // Dispara quando a seção atinge 85% do viewport
+                        start: "top 85%",
                         toggleActions: "play none none reverse"
                     }
                 }
@@ -161,20 +129,15 @@ export default function Home() {
 
     return (
         <div className="home-page">
-            {/* HERO SECTION CINEMÁTICA SCROLL 3D (VÍDEO PURO) */}
-            <div ref={containerRef} className="hero-scroll-container">
+            {/* HERO SECTION - VIDEO NATURAL BACKGROUND */}
+            <div className="hero-scroll-container">
                 <section className="hero-section">
-                    <video ref={videoRef} className="hero-video-bg" muted playsInline preload="auto">
+                    <video className="hero-video-bg" autoPlay loop muted playsInline preload="auto">
                         <source src="/assets/video-riverson.mp4" type="video/mp4" />
                     </video>
 
-                    {/* Degradê apenas no pé para mesclar com o texto abaixo */}
+                    {/* Degradê levíssimo só no pé para o preto se misturar perfeitamente com a seção textual abaixo */}
                     <div className="hero-overlay-fade"></div>
-
-                    <div className="scroll-indicator">
-                        <div className="mouse-icon"></div>
-                        <span>Role e Viaje no Tempo</span>
-                    </div>
                 </section>
             </div>
 

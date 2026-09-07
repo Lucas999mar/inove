@@ -67,7 +67,7 @@
     transform: translateX(5px);
 }
 
-/* HERO SCROLL 3D */
+/* HERO NATURAL VIDEO BACKGROUND */
 .hero-scroll-container {
     position: relative;
     width: 100%;
@@ -76,7 +76,10 @@
 .hero-section {
     position: relative;
     width: 100%;
-    height: 100vh;
+    aspect-ratio: 16/9;
+    /* Proporção correta de vídeo */
+    max-height: 100vh;
+    /* Para não vazar de uma tela de PC e ficar muito oco */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -88,8 +91,12 @@
 
 .hero-overlay-fade {
     position: absolute;
-    inset: 0;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 1) 100%);
+    bottom: 0px;
+    left: 0;
+    right: 0;
+    height: 15%;
+    /* Degradê leve e curto apenas onde encontra o texto */
+    background: linear-gradient(to bottom, transparent 0%, #000 100%);
     z-index: 1;
     pointer-events: none;
 }
@@ -104,14 +111,15 @@
     object-fit: contain;
     /* Mostra o vídeo INTEIRO sem cortar */
     z-index: 0;
-    opacity: 0.95;
+    opacity: 1;
+    /* MAXIMUM QUALITY, zero suavização forçada */
     background-color: #000;
 }
 
 .hero-presentation-section {
     position: relative;
     background-color: #000;
-    padding: 80px 20px 100px;
+    padding: 20px 20px 100px;
     z-index: 10;
     display: flex;
     justify-content: center;
@@ -148,87 +156,14 @@
 
 @media (max-width: 768px) {
     .hero-presentation-section {
-        padding: 40px 20px 80px;
+        padding: 0px 20px 80px;
     }
 
     .hero-presentation-section h1 {
         font-size: 2rem;
     }
-
-    .scroll-indicator {
-        bottom: 20px;
-    }
 }
 
-/* Scroll Indicator Apple Style */
-.scroll-indicator {
-    position: absolute;
-    bottom: 40px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 3;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-    opacity: 0.7;
-    animation: bounceFade 2s infinite ease-in-out;
-}
-
-.scroll-indicator span {
-    color: #fff;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    font-weight: 600;
-}
-
-.mouse-icon {
-    width: 26px;
-    height: 40px;
-    border: 2px solid rgba(255, 255, 255, 0.6);
-    border-radius: 20px;
-    position: relative;
-}
-
-.mouse-icon::before {
-    content: '';
-    position: absolute;
-    top: 6px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 4px;
-    height: 6px;
-    background: #fff;
-    border-radius: 2px;
-    animation: scrollWheel 2s infinite;
-}
-
-@keyframes scrollWheel {
-    0% {
-        top: 6px;
-        opacity: 1;
-    }
-
-    100% {
-        top: 18px;
-        opacity: 0;
-    }
-}
-
-@keyframes bounceFade {
-
-    0%,
-    100% {
-        transform: translate(-50%, 0);
-        opacity: 0.4;
-    }
-
-    50% {
-        transform: translate(-50%, 10px);
-        opacity: 1;
-    }
-}
 
 .badge {
     display: inline-block;
