@@ -10,7 +10,6 @@ import AdminPortfolio from './pages/admin/AdminPortfolio';
 import AdminLeads from './pages/admin/AdminLeads';
 import AdminAbout from './pages/admin/AdminAbout';
 import AdminClients from './pages/admin/AdminClients';
-import AdminLivePreview from './pages/admin/AdminLivePreview';
 import './App.css';
 
 function App() {
@@ -28,7 +27,6 @@ function App() {
           <Route index element={<AdminDashboard />} />
           <Route path="login" element={<AdminLogin />} />
           <Route path="settings" element={<AdminSettings />} />
-          <Route path="live-editor" element={<AdminLivePreview />} />
           <Route path="about" element={<AdminAbout />} />
           <Route path="services" element={<AdminServices />} />
           <Route path="portfolio" element={<AdminPortfolio />} />

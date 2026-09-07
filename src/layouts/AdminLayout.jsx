@@ -41,10 +41,6 @@ export default function AdminLayout() {
                     </div>
                     <nav style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                         <a href="/admin" style={{ color: '#ccc', textDecoration: 'none' }}>Dashboard</a>
-                        <a href="/admin/live-editor" style={{ color: '#85c226', fontWeight: 'bold', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            <span style={{ width: '8px', height: '8px', background: '#85c226', borderRadius: '50%' }}></span>
-                            Modo Lovable (Visualizador)
-                        </a>
                         <a href="/admin/settings" style={{ color: '#ccc', textDecoration: 'none' }}>Configurações Globais</a>
                         <a href="/admin/about" style={{ color: '#ccc', textDecoration: 'none' }}>Quem Somos</a>
                         <a href="/admin/services" style={{ color: '#ccc', textDecoration: 'none' }}>Serviços Oferecidos</a>
