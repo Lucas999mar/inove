@@ -67,13 +67,16 @@
     transform: translateX(5px);
 }
 
-/* HERO */
+/* HERO SCROLL 3D */
+.hero-scroll-container {
+    position: relative;
+    width: 100%;
+}
+
 .hero-section {
     position: relative;
     width: 100%;
-    aspect-ratio: 16/9;
-    /* Ancoramento Perfeito de 16:9 para filmes */
-    min-height: 70vh;
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -134,8 +137,77 @@
     position: relative;
     z-index: 2;
     max-width: 900px;
-    padding-top: 10vh;
-    /* Desloca o texto um pouco para baixo no 16:9 */
+    padding-top: 5vh;
+}
+
+/* Scroll Indicator Apple Style */
+.scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    opacity: 0.7;
+    animation: bounceFade 2s infinite ease-in-out;
+}
+
+.scroll-indicator span {
+    color: #fff;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-weight: 600;
+}
+
+.mouse-icon {
+    width: 26px;
+    height: 40px;
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    border-radius: 20px;
+    position: relative;
+}
+
+.mouse-icon::before {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 6px;
+    background: #fff;
+    border-radius: 2px;
+    animation: scrollWheel 2s infinite;
+}
+
+@keyframes scrollWheel {
+    0% {
+        top: 6px;
+        opacity: 1;
+    }
+
+    100% {
+        top: 18px;
+        opacity: 0;
+    }
+}
+
+@keyframes bounceFade {
+
+    0%,
+    100% {
+        transform: translate(-50%, 0);
+        opacity: 0.4;
+    }
+
+    50% {
+        transform: translate(-50%, 10px);
+        opacity: 1;
+    }
 }
 
 .badge {
