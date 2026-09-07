@@ -10,8 +10,10 @@ export default function Home() {
     const [clients, setClients] = useState([]);
     const [testimonials, setTestimonials] = useState([]);
     const [pages, setPages] = useState({});
+    const [aboutMedia, setAboutMedia] = useState(null);
     const [loading, setLoading] = useState(true);
     const [activeVideo, setActiveVideo] = useState(null);
+    const [slideIndex, setSlideIndex] = useState(0);
 
     // Form states
     const [leadData, setLeadData] = useState({ name: '', phone: '', email: '', message: '' });
@@ -27,14 +29,16 @@ export default function Home() {
                     { data: projs },
                     { data: clis },
                     { data: tests },
-                    { data: pgs }
+                    { data: pgs },
+                    { data: aboutMediaData }
                 ] = await Promise.all([
                     supabase.from('site_settings').select('*').single(),
                     supabase.from('services').select('*').order('order', { ascending: true }),
                     supabase.from('projects').select('*').eq('is_featured', true).order('order', { ascending: true }).limit(6),
                     supabase.from('clients').select('*').order('order', { ascending: true }),
                     supabase.from('testimonials').select('*').eq('is_featured', true).order('order', { ascending: true }),
-                    supabase.from('pages').select('*')
+                    supabase.from('pages').select('*'),
+                    supabase.from('page_sections').select('*').eq('section_id', 'about_media').single()
                 ]);
 
                 setSettings(setts);
@@ -46,6 +50,7 @@ export default function Home() {
                 const pagesMap = {};
                 if (pgs) pgs.forEach(p => pagesMap[p.slug] = p);
                 setPages(pagesMap);
+                if (aboutMediaData) setAboutMedia(aboutMediaData);
             } catch (error) {
                 console.error("Erro ao carregar dados:", error);
             } finally {
@@ -54,6 +59,16 @@ export default function Home() {
         }
         fetchContent();
     }, []);
+
+    // Auto-rotate gallery images
+    useEffect(() => {
+        const gallery = aboutMedia?.buttons;
+        if (!Array.isArray(gallery) || gallery.length <= 1) return;
+        const timer = setInterval(() => {
+            setSlideIndex(prev => (prev + 1) % gallery.length);
+        }, 4000);
+        return () => clearInterval(timer);
+    }, [aboutMedia]);
 
     const handleSubmitLead = async (e) => {
         e.preventDefault();
@@ -121,10 +136,62 @@ export default function Home() {
                             </div>
                         </div>
                         <div className="about-image">
-                            {/* Placeholder para uma foto da equipe/bastidores. Editável via painel no futuro */}
-                            <div className="image-placeholder">
-                                <Play size={64} opacity={0.5} />
-                            </div>
+                            {aboutMedia && aboutMedia.active !== false ? (
+                                aboutMedia.video_url ? (
+                                    <div className="about-media-video" style={{ aspectRatio: '4/5', borderRadius: 'var(--border-radius)', overflow: 'hidden', boxShadow: '0 40px 80px rgba(0,0,0,0.5)', position: 'relative', background: '#000' }}>
+                                        <iframe
+                                            width="100%"
+                                            height="100%"
+                                            src={`https://www.youtube.com/embed/${aboutMedia.video_url.includes('v=') ? aboutMedia.video_url.split('v=')[1].split('&')[0] : aboutMedia.video_url.includes('youtu.be/') ? aboutMedia.video_url.split('youtu.be/')[1].split('?')[0] : aboutMedia.video_url}?rel=0`}
+                                            title="Vídeo Institucional"
+                                            frameBorder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            allowFullScreen
+                                            style={{ border: 'none', position: 'absolute', inset: 0, width: '100%', height: '100%' }}
+                                        />
+                                    </div>
+                                ) : Array.isArray(aboutMedia.buttons) && aboutMedia.buttons.length > 0 ? (
+                                    <div className="about-carousel" style={{ aspectRatio: '4/5', borderRadius: 'var(--border-radius)', overflow: 'hidden', boxShadow: '0 40px 80px rgba(0,0,0,0.5)', position: 'relative' }}>
+                                        {aboutMedia.buttons.map((img, idx) => (
+                                            <div key={img.url || idx} className="carousel-slide" style={{
+                                                position: 'absolute', inset: 0,
+                                                backgroundImage: `url(${img.url})`,
+                                                backgroundSize: 'cover', backgroundPosition: 'center',
+                                                opacity: idx === slideIndex ? 1 : 0,
+                                                transition: 'opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1)',
+                                                zIndex: idx === slideIndex ? 2 : 1
+                                            }} />
+                                        ))}
+                                        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.6), transparent)', zIndex: 3, pointerEvents: 'none' }} />
+                                        {aboutMedia.buttons.length > 1 && (
+                                            <div className="carousel-dots" style={{
+                                                position: 'absolute', bottom: '16px', left: '50%', transform: 'translateX(-50%)',
+                                                display: 'flex', gap: '8px', zIndex: 4
+                                            }}>
+                                                {aboutMedia.buttons.map((_, idx) => (
+                                                    <button key={idx} onClick={() => setSlideIndex(idx)} style={{
+                                                        width: idx === slideIndex ? '24px' : '8px', height: '8px',
+                                                        borderRadius: '4px', border: 'none',
+                                                        background: idx === slideIndex ? 'var(--accent, #85c226)' : 'rgba(255,255,255,0.4)',
+                                                        cursor: 'pointer', transition: 'all 0.4s ease', padding: 0
+                                                    }} />
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
+                                ) : aboutMedia.image_url ? (
+                                    <div className="image-placeholder" style={{ backgroundImage: `url(${aboutMedia.image_url})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+                                    </div>
+                                ) : (
+                                    <div className="image-placeholder">
+                                        <Play size={64} opacity={0.5} />
+                                    </div>
+                                )
+                            ) : (
+                                <div className="image-placeholder">
+                                    <Play size={64} opacity={0.5} />
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
