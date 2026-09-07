@@ -132,7 +132,13 @@ export default function Home() {
             {/* HERO SECTION - VIDEO NATURAL BACKGROUND */}
             <div className="hero-scroll-container">
                 <section className="hero-section">
-                    <video className="hero-video-bg" autoPlay loop muted playsInline preload="auto">
+                    {/* VIDEO DESKTOP (Oculto no CSS via mobile) */}
+                    <video className="hero-video-bg video-desktop" autoPlay loop muted playsInline preload="auto">
+                        <source src="/assets/video-riverson-desktop.mp4" type="video/mp4" />
+                    </video>
+
+                    {/* VIDEO MOBILE (Oculto no CSS via desktop) */}
+                    <video className="hero-video-bg video-mobile" autoPlay loop muted playsInline preload="auto">
                         <source src="/assets/video-riverson.mp4" type="video/mp4" />
                     </video>
 

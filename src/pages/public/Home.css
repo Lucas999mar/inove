@@ -102,6 +102,16 @@
     margin: 0 auto;
 }
 
+/* Regras de Exibição Desktop vs Mobile */
+.video-desktop {
+    display: block;
+}
+
+.video-mobile {
+    display: none;
+}
+
+
 .hero-overlay-fade {
     position: absolute;
     bottom: -2px;
@@ -153,6 +163,16 @@
 }
 
 @media (max-width: 768px) {
+
+    /* Alterna para o vídeo de celular */
+    .video-desktop {
+        display: none !important;
+    }
+
+    .video-mobile {
+        display: block !important;
+    }
+
     .hero-presentation-section {
         padding: 0px 20px 80px;
     }
